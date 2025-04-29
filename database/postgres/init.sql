@@ -46,15 +46,15 @@ CREATE TABLE
 
 CREATE TABLE
 	IF NOT EXISTS friends (
-		id SERIAL PRIMARY KEY, -- Django requires a primary key
+		id SERIAL PRIMARY KEY,
 		user_id INT NOT NULL,
 		friend_id INT NOT NULL,
-		initiator_id INT NOT NULL, -- Ajout de la colonne pour l'initiateur de la demande
-		status VARCHAR(20) DEFAULT 'pending', -- 'pending', 'accepted', 'rejected'
+		initiator_id INT NOT NULL,
+		status VARCHAR(20) DEFAULT 'pending',
 		created_at TIMESTAMP NOT NULL DEFAULT NOW (),
 		FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
 		FOREIGN KEY (friend_id) REFERENCES users (id) ON DELETE CASCADE,
-		UNIQUE (user_id, friend_id) -- Ensures no duplicate friendships
+		UNIQUE (user_id, friend_id)
 	);
 
 CREATE TABLE
@@ -63,20 +63,20 @@ CREATE TABLE
 		user_id INT NOT NULL,
 		blocked_user_id INT NOT NULL,
 		created_at TIMESTAMP NOT NULL DEFAULT NOW (),
-		initiator_id INT NOT NULL, -- The user who initiated the block
+		initiator_id INT NOT NULL,
 		FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
 		FOREIGN KEY (blocked_user_id) REFERENCES users (id) ON DELETE CASCADE,
-		UNIQUE (user_id, blocked_user_id) -- Ensures no duplicate blocks
+		UNIQUE (user_id, blocked_user_id)
 	);
 
 CREATE TABLE
 	IF NOT EXISTS tournaments (
 		id SERIAL PRIMARY KEY,
-		serial_key VARCHAR(255) NOT NULL UNIQUE, -- Unique identifier for the tournament
+		serial_key VARCHAR(255) NOT NULL UNIQUE,
 		size INT DEFAULT 0 CHECK (size = 2 OR size = 4 OR size = 8 OR size = 16),
 		name VARCHAR(255) DEFAULT 'TOURNAMENT_DEFAULT_NAME',
 		organizer_id INT DEFAULT NULL,
-		status VARCHAR(50) DEFAULT 'upcoming', -- 'upcoming', 'ongoing', 'completed'
+		status VARCHAR(50) DEFAULT 'upcoming',
 		mode VARCHAR(10) DEFAULT 'local',
 		created_at TIMESTAMP NOT NULL DEFAULT NOW (),
 		updated_at TIMESTAMP NOT NULL DEFAULT NOW ()
@@ -87,23 +87,23 @@ CREATE TABLE
 		id SERIAL PRIMARY KEY,
 		tournament_id INT NOT NULL,
 		user_id INT NOT NULL,
-		status VARCHAR(20) DEFAULT 'pending', -- 'pending', 'accepted', 'rejected', 'eliminated'
+		status VARCHAR(20) DEFAULT 'pending',
 		created_at TIMESTAMP NOT NULL DEFAULT NOW (),
 		FOREIGN KEY (tournament_id) REFERENCES tournaments (id) ON DELETE CASCADE,
-		UNIQUE (tournament_id, user_id) -- Ensures no duplicate entries
+		UNIQUE (tournament_id, user_id)
 	);
 
 CREATE TABLE
 	IF NOT EXISTS private_games (
-		id SERIAL PRIMARY KEY, -- Django requires a primary key
+		id SERIAL PRIMARY KEY,
 		user_id INT NOT NULL,
 		recipient_id INT NOT NULL,
-		initiator_id INT NOT NULL, -- Ajout de la colonne pour l'initiateur de la demande
-		status VARCHAR(20) DEFAULT 'pending', -- 'pending', 'accepted', 'rejected'
+		initiator_id INT NOT NULL,
+		status VARCHAR(20) DEFAULT 'pending',
 		created_at TIMESTAMP NOT NULL DEFAULT NOW (),
 		FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
 		FOREIGN KEY (recipient_id) REFERENCES users (id) ON DELETE CASCADE,
-		UNIQUE (user_id, recipient_id) -- Ensures no duplicate friendships
+		UNIQUE (user_id, recipient_id)
 	);
 
 CREATE TABLE 
