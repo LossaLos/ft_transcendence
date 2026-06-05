@@ -4,6 +4,7 @@ _Most API endpoints require a valid JWT in the header._
 
 ---
 
+
 ## Table of Contents
 
 -   [Tournament Service API](#tournament-service-api)
